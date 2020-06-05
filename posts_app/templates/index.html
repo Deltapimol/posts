@@ -1,0 +1,10 @@
+<html>
+    <head><h3>Posts</h3></head>
+    <body>
+        {% for post in posts %}
+            <p>{{ post }}</p>
+        {% endfor %}
+
+        <a href="{% url 'createpost' %}"><button>New Post</button></a>
+    </body>
+</html>

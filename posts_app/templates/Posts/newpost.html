@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <h3>Create a new post</h3>
+    </head>
+    <body>
+        <br>
+        <a href="{% url 'displayposts' %}"><button>View posts</button></a>
+        <form method='POST'>
+            {% csrf_token %}
+            {{ post.as_p }}
+            <input type='submit' value='Post'>
+        </form>
+    </body>
+
+</html>
