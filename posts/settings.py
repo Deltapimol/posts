@@ -25,7 +25,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'login_app',
     'posts_app',
+    
 ]
 
 
@@ -108,6 +110,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/posts'
+LOGOUT_REDIRECT_URL = '/posts'
 
 

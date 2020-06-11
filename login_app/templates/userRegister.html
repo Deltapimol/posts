@@ -1,0 +1,17 @@
+<html>
+    {% extends 'index.html' %}
+    {% block content %}
+
+    <hr>    
+        <h3>Register User</h3>
+    <hr>
+    <body>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <input type="submit" value="Register">
+        </form>
+    </body>
+    {% endblock %}    
+</html>

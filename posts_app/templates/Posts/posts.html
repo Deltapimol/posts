@@ -1,0 +1,21 @@
+<html>
+
+    {% extends 'index.html' %}
+    {% block content %}
+    
+    <body>
+        &nbsp; &nbsp;<a href="{% url 'createpost' %}"><button>New Post</button></a> &nbsp; &nbsp;
+        <hr>       
+        {% for post in posts %}
+            <p>By <b>{{ post.author }}</b></p>
+            <p>{{ post.title }}</p>
+            <p>{{ post.text }}</p>
+            <br>
+            <p>Posted on: {{ post.post_datetime }}</p>
+            <br>
+            <hr>
+        {% endfor %}        
+    </body>
+    {% endblock %}
+
+</html>

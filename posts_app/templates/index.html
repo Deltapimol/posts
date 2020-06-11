@@ -1,10 +1,17 @@
 <html>
-    <head><h3>Posts</h3></head>
-    <body>
-        {% for post in posts %}
-            <p>{{ post }}</p>
-        {% endfor %}
+    {% load staticfiles %}
+    <head>
+    <link rel="icon" href={% static "beddit.png" %}>
+    <img src={% static "Beddit-logo.png" %}>
 
-        <a href="{% url 'createpost' %}"><button>New Post</button></a>
-    </body>
+    {% if user.is_authenticated %}
+        <b>{{ user.username }}</b> &nbsp; &nbsp;
+        <a href='{% url "logout" %}'><button>Logout</button></a>
+    {% else %}
+        <a href='{% url "login" %}'><button>Login</button></a> &nbsp; &nbsp;
+        <a href='{% url "userRegister" %}'><button>Sign Up</button></a>
+    {% endif %}
+    </head>
+   {% block content %}
+   {% endblock %}
 </html>

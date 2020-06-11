@@ -1,15 +1,22 @@
 <html>
-    <head>
+    {% extends 'index.html' %}
+    {% block content %}
+    <hr>
         <h3>Create a new post</h3>
-    </head>
     <body>
-        <br>
-        <a href="{% url 'displayposts' %}"><button>View posts</button></a>
+        <hr>
+        <a href="{% url 'displayposts' %}"><button>Back</button></a>
+
         <form method='POST'>
             {% csrf_token %}
-            {{ post.as_p }}
-            <input type='submit' value='Post'>
+            {% if user.is_authenticated %}
+                    {{ post.as_p }}
+                    <input type='submit' value='Post'>
+            {% else %}
+                <p>User not logged in. Please login to create a new post.</p>
+            {% endif %}            
         </form>
     </body>
+    {% endblock %}
 
 </html>
