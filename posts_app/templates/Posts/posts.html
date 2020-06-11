@@ -1,21 +1,22 @@
 <html>
-
     {% extends 'index.html' %}
     {% block content %}
-    
     <body>
-        &nbsp; &nbsp;<a href="{% url 'createpost' %}"><button>New Post</button></a> &nbsp; &nbsp;
+        <br>
+        <div class="container-fluid">
+        &nbsp; &nbsp;<a href="{% url 'createpost' %}"><button class="btn btn-warning">New Post</button></a> &nbsp; &nbsp;
         <hr>       
         {% for post in posts %}
-            <p>By <b>{{ post.author }}</b></p>
-            <p>{{ post.title }}</p>
-            <p>{{ post.text }}</p>
-            <br>
-            <p>Posted on: {{ post.post_datetime }}</p>
-            <br>
+            <p>By <span class="badge badge-pill badge-info">{{ post.author }}</span></p>
+            <div class="alert alert-warning" role="alert">
+                <b>{{ post.title }}</b>
+                <p>{{ post.text }}</p>
+                <hr>
+                <i>Posted on: {{ post.post_datetime }}</i>
+            </div>
             <hr>
-        {% endfor %}        
+        {% endfor %}  
+        </div>      
     </body>
     {% endblock %}
-
 </html>

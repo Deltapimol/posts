@@ -1,12 +1,15 @@
 <html>
     {% extends 'index.html' %}
     {% block content %}
-    <hr>
-        <h3>Create a new post</h3>
+    <head>
+        <div class="shadow-sm p-3 mb-5 bg-white rounded">
+            <h3>Create a new post</h3>
+        </div>
+    </head>     
     <body>
-        <hr>
-        <a href="{% url 'displayposts' %}"><button>Back</button></a>
-
+        <div class="container-fluid">
+        <a href="{% url 'displayposts' %}"><button class="btn btn-dark">Back</button></a>
+        <div class="form-group">
         <form method='POST'>
             {% csrf_token %}
             {% if user.is_authenticated %}
@@ -16,6 +19,8 @@
                 <p>User not logged in. Please login to create a new post.</p>
             {% endif %}            
         </form>
+        </div>
+        </div>
     </body>
     {% endblock %}
 

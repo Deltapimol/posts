@@ -1,16 +1,17 @@
 <html>
-    {% load staticfiles %}
-    <head>
-    <link rel="icon" href={% static "beddit.png" %}>
-    <img src={% static "Beddit-logo.png" %}>
 
+    <head>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <div class="container-fluid">
+        <a href='{% url "displayposts" %}'><h2>Beddit</h2></a>
     {% if user.is_authenticated %}
-        <b>{{ user.username }}</b> &nbsp; &nbsp;
-        <a href='{% url "logout" %}'><button>Logout</button></a>
+    <span class="badge badge-pill badge-success"><h6>{{ user.username }}</h6></span> &nbsp; &nbsp;
+        <a href='{% url "logout" %}'><button class="btn btn-danger">Logout</button></a>
     {% else %}
-        <a href='{% url "login" %}'><button>Login</button></a> &nbsp; &nbsp;
-        <a href='{% url "userRegister" %}'><button>Sign Up</button></a>
+        <a href='{% url "login" %}'><button class="btn btn-primary">Login</button></a> &nbsp; &nbsp;
+        <a href='{% url "userRegister" %}'><button class="btn btn-info">Sign Up</button></a>
     {% endif %}
+    </div>
     </head>
    {% block content %}
    {% endblock %}

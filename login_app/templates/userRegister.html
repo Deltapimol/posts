@@ -1,17 +1,19 @@
 <html>
     {% extends 'index.html' %}
     {% block content %}
-
-    <hr>    
+    <div class="shadow-sm p-3 mb-5 bg-white rounded">
         <h3>Register User</h3>
-    <hr>
+    </div>
+    <div class="container-fluid">  
+    <a href='{% url "displayposts" %}'><button class="btn btn-dark">Back</button></a>
     <body>
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
 
-            <input type="submit" value="Register">
+            <input class="btn btn-success" type="submit" value="Register">
         </form>
     </body>
+    </div>
     {% endblock %}    
 </html>
