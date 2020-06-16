@@ -19,7 +19,6 @@ from posts_app import urls
 from login_app import urls
 from posts_app.views import about
 
-
 urlpatterns = [
     
     path('admin/', admin.site.urls),

@@ -20,7 +20,7 @@ class Comment(models.Model):
     comment_datetime = models.DateTimeField(null=True)
     
     def __str__(self):
-        return self.commentator
+        return self.comment
 
     
     

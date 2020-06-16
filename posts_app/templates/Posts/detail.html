@@ -18,7 +18,25 @@
                 <p><i>Posted on: {{ post.post_datetime }}</i></p>
                 {% endif %}
             </div>
-            </div>
+            <hr>
+            <a href="{% url 'comment' pk=post.pk %}">Comment</a>    
+            <b>Comments :</b>
+            <div class="shadow-sm p-3 mb-5 bg-white rounded">
+                {% for comment in comments %}
+                    <div class="card">
+                        <div class="card-body">                           
+                            <p>{{ comment.comment }}</p>                          
+                            <footer class="blockquote-footer">
+                                <cite>
+                                    {{ comment.commentator }}
+                                </cite>
+                            </footer>                    
+                        </div>
+                    </div> 
+                    <p class="text-right"><i>{{ comment.comment_datetime }}</i></p>
+                {% endfor %}
+            </div> 
+            </div>     
         <a href="{% url 'displayposts' %}">
             <button type='button' class="btn btn-dark">Back</button>
         </a>

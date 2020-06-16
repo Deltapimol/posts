@@ -11,9 +11,10 @@
             {% endif %}       
         <hr>       
         {% for post in posts %}           
-        <a href="{% url 'postdetails' pk=post.pk %}" class="text-decoration-none">
+        
             <div class="shadow-sm p-3 mb-5 bg-white rounded">                
-                    <b><a href={% url "postdetails" pk=post.pk %} class="text-decoration-none">{{ post.title }}</a></b>
+                <span class="badge badge-pill badge-info">{{ post.author }}</span>    
+                <b><a href={% url "postdetails" pk=post.pk %} class="text-decoration-none">{{ post.title }}</a></b>
                     {% if user.username|stringformat:"s" == post.author|stringformat:"s" %}
                     <a href="{% url 'editpost' pk=post.pk %}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
@@ -24,12 +25,12 @@
                     {% else %}
                     <b></b>
                     {% endif %}
-                    &nbsp;<span class="badge badge-pill badge-info">{{ post.author }}</span>
+                    &nbsp;
                     <div class="overflow-hidden">
                         <span class="d-inline-block text-truncate" style="max-width: 1500px;">
-                            {{ post.text }}<b>...</b>
+                            {{ post.text }}
                         </span>
-                    </div></a>
+                    </div>
                     <hr>
                     <i>{{ post.post_datetime }}</i>    
             </div>  
