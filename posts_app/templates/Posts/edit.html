@@ -1,0 +1,40 @@
+<html>
+    {% extends 'index.html' %}
+    {% block content %}
+    <head>
+        <div class="shadow-sm p-3 mb-5 bg-white rounded">
+            <h4>Edit Post</h4>        
+        </div>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="form-group">
+                <form method='POST'>
+                    {% csrf_token %}
+                    {% if user.is_authenticated %}
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Title : &nbsp&nbsp {{ form.title }}</span>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Text : &nbsp&nbsp {{ form.text }}</span>
+                        </div>
+                    </div>
+                        <a href="{% url 'postdetails' pk=pk %}">
+                            <button type='button' class="btn btn-dark">
+                            Back
+                            </button>
+                        </a>
+                        &nbsp;<input type='submit' class="btn btn-warning" value='Save'>
+                    {% else %}
+                        <p>User not logged in. Please login to create a new post.</p>
+                    {% endif %}
+                                
+                </form>
+                </div>
+        </div>
+    </body>
+    {% endblock %}
+</html>

@@ -9,11 +9,18 @@ class Post(models.Model):
     text = models.TextField()
     post_datetime = models.DateTimeField(null=True)
 
-    #def post(self):
-       #self.post_datetime = timezone.now()
-       #self.save()
-    
     def __str__(self):
         return self.title
+
+class Comment(models.Model):
+    
+    post = models.ForeignKey(Post,on_delete = models.CASCADE)
+    commentator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete= models.CASCADE)
+    comment = models.CharField(blank=False,null=False,max_length=100)
+    comment_datetime = models.DateTimeField(null=True)
+    
+    def __str__(self):
+        return self.commentator
+
     
     

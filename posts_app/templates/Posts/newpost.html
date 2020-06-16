@@ -3,21 +3,33 @@
     {% block content %}
     <head>
         <div class="shadow-sm p-3 mb-5 bg-white rounded">
-            <h3>Create a new post</h3>
+            <h4>Create a new post</h4>
         </div>
     </head>     
     <body>
         <div class="container-fluid">
-        <a href="{% url 'displayposts' %}"><button class="btn btn-dark">Back</button></a>
         <div class="form-group">
         <form method='POST'>
             {% csrf_token %}
             {% if user.is_authenticated %}
-                    {{ post.as_p }}
-                    <input type='submit' value='Post'>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Title : &nbsp&nbsp {{ post.title }}</span>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Text : &nbsp&nbsp {{ post.text }}</span>
+                </div>
+            </div> 
+                    <a href="{% url 'displayposts' %}"><button type='button' class="btn btn-dark">Back</button></a>
+                    &nbsp;
+                    <input type='submit' class="btn btn-warning" value='Post'>
             {% else %}
                 <p>User not logged in. Please login to create a new post.</p>
-            {% endif %}            
+                <a href="{% url 'displayposts' %}"><button type='button' class="btn btn-dark">Back</button></a>
+            {% endif %}
+                        
         </form>
         </div>
         </div>

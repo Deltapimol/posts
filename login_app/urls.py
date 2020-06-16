@@ -5,6 +5,6 @@ from .views import userRegister
 
 urlpatterns = [
     
-    path('userRegister/',userRegister,name='userRegister'),
+    path(r'^userRegister/$',userRegister,name='userRegister'),
        
 ]

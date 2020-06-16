@@ -1,18 +1,67 @@
+{% load static %}
 <html>
 
     <head>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <div class="container-fluid">
-        <a href='{% url "displayposts" %}'><h2>Beddit</h2></a>
-    {% if user.is_authenticated %}
-    <span class="badge badge-pill badge-success"><h6>{{ user.username }}</h6></span> &nbsp; &nbsp;
-        <a href='{% url "logout" %}'><button class="btn btn-danger">Logout</button></a>
-    {% else %}
-        <a href='{% url "login" %}'><button class="btn btn-primary">Login</button></a> &nbsp; &nbsp;
-        <a href='{% url "userRegister" %}'><button class="btn btn-info">Sign Up</button></a>
-    {% endif %}
-    </div>
+                <link rel="stylesheet" href= 
+        "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> 
+            <script src= 
+        "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"> 
+            </script> 
+            <script src= 
+        "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"> 
+            </script> 
+            <script src= 
+        "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"> 
+            </script> 
+        <link rel="stylesheet" href="{% static 'css/posts.css' %}">
+        <link rel="shortcut icon" href="{% static 'favicon.png' %}" type="image/png">
+ 
+        <title>Beddit</title>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href='{% url "displayposts" %}'>
+                <img src="{% static 'logo.jpg' %}" alt="Beddit">
+            </a>  
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'displayposts' %}">Home<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'about' %}">About</a>
+                </li>
+                </ul>
+                {% if user.is_authenticated %}
+                <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                   
+                        <span class="badge badge-light">{{ user.username }}</span>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href='{% url "logout" %}'>
+                        Logout
+                    </a>
+                  </div>
+                </li>
+                </ul>
+            </div>
+                {% else %}
+                
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href='{% url "login" %}'>Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href='{% url "userRegister" %}'>Sign Up</a>
+                        </li>
+                    </ul>
+                   
+                {% endif %} 
+          
+          </nav>     
     </head>
-   {% block content %}
-   {% endblock %}
+            {% block content %}
+            {% endblock %}
 </html>

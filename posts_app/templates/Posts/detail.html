@@ -1,0 +1,37 @@
+<html>
+    {% extends 'index.html' %}
+    {% block content %}
+    <body> 
+        <div class="container-fluid">
+            <div class="shadow-sm p-3 mb-5 bg-white rounded">
+                <h4>
+                    {{ post.title }} 
+                    <br>
+                    <br>
+                    <font size="3">Author : <span class="badge badge-pill badge-info">{{ post.author }}</span></font>               
+                </h4>
+            <br>
+            <div class="alert alert-warning" role="alert">
+                <p>{{ post.text }}</p>
+                <hr>
+                {% if post.post_datetime %}
+                <p><i>Posted on: {{ post.post_datetime }}</i></p>
+                {% endif %}
+            </div>
+            </div>
+        <a href="{% url 'displayposts' %}">
+            <button type='button' class="btn btn-dark">Back</button>
+        </a>
+        {% if user.username|stringformat:"s" == post.author|stringformat:"s" %}
+        <a href="{% url 'editpost' pk=post.pk %}">
+            <button type='button' class="btn btn-info">           
+                Edit
+            </button>
+        </a>
+        {% else %}
+        <b></b>
+        {% endif %}       
+        </div>
+    </body>
+    {% endblock %}
+</html>
