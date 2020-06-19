@@ -2,53 +2,85 @@
     {% extends 'index.html' %}
     {% block content %}
     <body> 
-        <div class="container-fluid">
+        <div class="container">
             <div class="shadow-sm p-3 mb-5 bg-white rounded">
-                <h4>
+                <h3>
                     {{ post.title }} 
-                    <br>
-                    <br>
-                    <font size="3">Author : <span class="badge badge-pill badge-info">{{ post.author }}</span></font>               
-                </h4>
-            <br>
-            <div class="alert alert-warning" role="alert">
-                <p>{{ post.text }}</p>
+                    {% if user.username|stringformat:"s" == post.author|stringformat:"s" %}
+                    &nbsp;&nbsp;
+                    <a href="{% url 'editpost' pk=post.pk %}">
+                        <button type='button' class="btn btn-info">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+                        <path  d="M11.013 1.427a1.75 1.75 0 012.474 0l1.086 1.086a1.75 1.75 0 010 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 01-.927-.928l.929-3.25a1.75 1.75 0 01.445-.758l8.61-8.61zm1.414 1.06a.25.25 0 00-.354 0L10.811 3.75l1.439 1.44 1.263-1.263a.25.25 0 000-.354l-1.086-1.086zM11.189 6.25L9.75 4.81l-6.286 6.287a.25.25 0 00-.064.108l-.558 1.953 1.953-.558a.249.249 0 00.108-.064l6.286-6.286z">
+                        </path>
+                        </svg>
+                        Edit
+                        </button>
+                    </a>
+                    {% else %}
+                    <b></b>
+                    {% endif %}    
+                </h3>               
+                <h6><p class="text-secondary">{{ post.author }}</p></h6>
+                <small class="text-muted">
+                    {{ post.post_datetime }}
+                </small>
+                <br>
+                <div class="p-3 mb-2 bg-light text-dark">
+                    <p>{{ post.text|linebreaksbr}}</p>
+                </div>   
                 <hr>
-                {% if post.post_datetime %}
-                <p><i>Posted on: {{ post.post_datetime }}</i></p>
-                {% endif %}
-            </div>
-            <hr>
-            <a href="{% url 'comment' pk=post.pk %}">Comment</a>    
+            {% if user.is_authenticated %}
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.comment }}
+                    <br>
+                    <div class="float-right">
+                        <button type='submit' class="btn btn-primary">Post</button>
+                    </div>
+                </form>
+            {% else %}
+                <br>
+                <hr>
+                <p class="text-center">
+                    <a href="{% url 'login' %}">Login</a> to comment
+                </p>
+            {% endif %}
+            <br>
             <b>Comments :</b>
-            <div class="shadow-sm p-3 mb-5 bg-white rounded">
+            <div class="shadow-sm p-3 mb-3 bg-white rounded">
                 {% for comment in comments %}
                     <div class="card">
                         <div class="card-body">                           
-                            <p>{{ comment.comment }}</p>                          
+                            <p>{{ comment.comment }}</p>     
                             <footer class="blockquote-footer">
                                 <cite>
                                     {{ comment.commentator }}
                                 </cite>
-                            </footer>                    
+                            </footer>                     
                         </div>
-                    </div> 
-                    <p class="text-right"><i>{{ comment.comment_datetime }}</i></p>
-                {% endfor %}
-            </div> 
-            </div>     
-        <a href="{% url 'displayposts' %}">
-            <button type='button' class="btn btn-dark">Back</button>
-        </a>
-        {% if user.username|stringformat:"s" == post.author|stringformat:"s" %}
-        <a href="{% url 'editpost' pk=post.pk %}">
-            <button type='button' class="btn btn-info">           
-                Edit
-            </button>
-        </a>
-        {% else %}
-        <b></b>
-        {% endif %}       
+                    </div>
+                    <p class="text-right mb-3">
+                        <a href="{% url 'reply' pk=post.pk pk2=comment.pk %}">
+                            <br>
+                            <button type="button" class="btn btn-dark btn-sm">Reply&nbsp;&nbsp;</button></a>
+                        <i>{{ comment.comment_datetime }}</i>
+                    </p>        
+                    <div class="shadow-sm p-3 mb-3 bg-white rounded">   
+                    {% for reply in replies %}    
+                            {% if reply.comment_id == comment.id %}    
+                            <div class="card">
+                                <div class="card-body">
+                                {{ reply.reply|linebreaksbr }}
+                                </div>  
+                                <i class="text-right">{{ reply.reply_datetime }}</i>
+                            </div>    
+                            {% endif %}
+                        {% endfor %}   
+                    </div>       
+                    {% endfor %}  
+                </div> 
+            </div>        
         </div>
     </body>
     {% endblock %}

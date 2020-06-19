@@ -2,24 +2,24 @@
     {% extends 'index.html' %}
     {% block content %}
     <head>
-        <div class="shadow-sm p-3 mb-5 bg-white rounded">
+        <div class="shadow-sm p-3 mb-5 bg-white rounded d-flex justify-content-center">
             <h4>Create a new post</h4>
         </div>
     </head>     
     <body>
-        <div class="container-fluid">
+        <div class="container d-flex justify-content-center">
         <div class="form-group">
         <form method='POST'>
             {% csrf_token %}
             {% if user.is_authenticated %}
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Title : &nbsp&nbsp {{ post.title }}</span>
+                    <span class="input-group-text" id="basic-addon1">{{ post.title }}</span>
                 </div>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Text : &nbsp&nbsp {{ post.text }}</span>
+                    <span class="input-group-text" id="basic-addon1">{{ post.text }}</span>
                 </div>
             </div> 
                     <a href="{% url 'displayposts' %}"><button type='button' class="btn btn-dark">Cancel</button></a>

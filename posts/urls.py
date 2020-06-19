@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path,include
 from posts_app import urls
 from login_app import urls
-from posts_app.views import about
+from posts_app.views import about,contact
+import django.contrib.auth.urls
 
 urlpatterns = [
     
@@ -25,6 +26,7 @@ urlpatterns = [
     path('accounts/',include('django.contrib.auth.urls')),
     path('posts/',include('posts_app.urls')),
     path('login/',include('login_app.urls')),
-    path('about/',about.as_view(),name='about')
+    path('about/',about.as_view(),name='about'),
+    path('contact/',contact.as_view(),name='contact'),
     
 ]

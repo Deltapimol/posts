@@ -2,11 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.utils import timezone
-from .models import Post, Comment
-from .forms import PostForm, CommentForm
+from .models import Post, Comment, Reply
+from .forms import PostForm, CommentForm, ReplyForm
 
 class about(TemplateView):
     template_name = "about.html"    
+    
+class contact(TemplateView):
+    template_name = "contact.html"
     
 def createPost(request):
 
@@ -29,8 +32,22 @@ def displayPosts(request):
 
 def postDetail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    comments = displayComments(pk)
-    return render(request,'Posts/detail.html',{ 'post': post, 'comments': comments })
+    comments = Comment.objects.filter(post_id=pk)
+    replies = Reply.objects.filter(post_id=pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.commentator = request.user
+            comment.comment_datetime = timezone.now()
+            comment.post = get_object_or_404(Post,pk=pk)
+            comment.save()
+            form = CommentForm()
+            return render(request,'Posts/detail.html',{'post':post, 'form':form ,'comments':comments, 'replies':replies})
+    else:
+        form = CommentForm()
+    context = { 'post': post, 'comments': comments , "form": form , "pk": pk ,"replies":replies}
+    return render(request,'Posts/detail.html',context)
 
 def postEdit(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -46,22 +63,37 @@ def postEdit(request, pk):
         form = PostForm(instance=post)
     return render(request,'Posts/edit.html',{ 'form': form , 'pk': pk })
 
-def commentCreate(request, pk):
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.commentator = request.user
-            comment.comment_datetime = timezone.now()
-            comment.post = get_object_or_404(Post,pk=pk)
-            comment.save()
-            return render(request,'postdetails')
+def createReply(request, pk, pk2):
+    if request.method == 'POST':
+        form = ReplyForm(request.POST)
+        if form.is_valid:
+            reply = form.save(commit=False)
+            reply.post = get_object_or_404(Post, pk=pk)
+            reply.comment = get_object_or_404(Comment , pk=pk2)
+            reply.respondent = request.user
+            reply.reply_datetime = timezone.now()
+            reply.save()
+            return redirect('postdetails',pk)
     else:
-        form = CommentForm()
-    context = { "form": form , "pk": pk}
-    return render(request,'Posts/comment.html',context)
+        form = ReplyForm()
+    return render(request, 'Posts/reply.html',{ 'form': form, 'pk': pk ,'pk2':pk2})
 
-def displayComments(pk):
-    comments = Comment.objects.filter(post_id=pk)
-    return comments
+# def commentCreate(request, pk):
+#     if request.method == "POST":
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             comment = form.save(commit=False)
+#             comment.commentator = request.user
+#             comment.comment_datetime = timezone.now()
+#             comment.post = get_object_or_404(Post,pk=pk)
+#             comment.save()
+#             return render(request,'postdetails')
+#     else:
+#         form = CommentForm()
+#     context = { "form": form , "pk": pk}
+#     return render(request,'Posts/comment.html',context)
+
+#def displayComments(pk):
+#    comments = Comment.objects.filter(post_id=pk)
+#    return comments
     

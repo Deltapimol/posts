@@ -6,18 +6,12 @@
         <h4>Login to your account</h4>
     </div>   
     <div class="d-flex justify-content-center">
-        
-    {% if form.errors %}
-        {% for key,value in form.errors.items %}
-            {{ value }} 
-        {% endfor %}
-    {% endif %}
     <div class="form-group">
         <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
         <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Username : &nbsp {{ form.username }}</span>
+            <div class="input-group-prepend">    
+                <span class="input-group-text" id="basic-addon1">Username : &nbsp; {{ form.username }}</span>
             </div>
         </div>
         <div class="input-group mb-3">

@@ -5,39 +5,40 @@
         <h4>Sign Up</h4>
     </div>
     <body>
-        <div class="d-flex justify-content-center"> 
-        <div class="form-group">
+        <div class="d-flex justify-content-center">  
         <form method="POST">
-            {% csrf_token %}
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">First Name : &nbsp; {{ form.first_name }}</span>
+            <div class="container">
+                {% csrf_token %}
+                <div class="row mb-3">
+                    <div class="col-sm">
+                        {{ form.first_name }}
+                    </div>
+                    <div class="col-sm">
+                    {{ form.last_name }}
+                    </div>
                 </div>
-            </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Last Name : &nbsp; {{ form.last_name }}</span>
+          
+                <div class="row mb-3">
+                    <div class="col-sm">
+                    {{ form.email }}
+                    </div>
+                <div class="col-sm">
+                    {{ form.username }}
+                    </div>
                 </div>
-            </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Username : &nbsp; {{ form.username }}</span>
+           
+                <div class="row mb-3">
+                    <div class="col-sm">
+                        {{ form.password1 }}
+                    </div>
+                    <div class="col-sm">
+                    {{ form.password2 }}
+                    </div>
                 </div>
-            </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Password : &nbsp; {{ form.password1 }}</span>
-                </div>
-            </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Confirm Password : &nbsp; {{ form.password2 }}</span>
-                </div>
-            </div>
-                <a href='{% url "displayposts" %}'><button type='button' class="btn btn-dark">Back</button></a>
-                &nbsp;<input class="btn btn-success" type="submit" value="Sign Up">
-        </form>
+            
+            <input class="btn btn-success btn-sm btn-block" type="submit" value="Sign Up">
         </div>
+        </form>
         </div>
     </body>
     {% endblock %}    

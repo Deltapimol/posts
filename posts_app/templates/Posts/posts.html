@@ -3,17 +3,15 @@
     {% block content %}
     <body>
         <br>
-        <div class="container-fluid">
+        <div class="container">
             {% if user.is_authenticated %}
             <a href="{% url 'createpost' %}"><button class="btn btn-warning">New Post</button></a>
             {% else %}
-            <div></div>
+            <b></b>
             {% endif %}       
         <hr>       
         {% for post in posts %}           
-        
             <div class="shadow-sm p-3 mb-5 bg-white rounded">                
-                <span class="badge badge-pill badge-info">{{ post.author }}</span>    
                 <b><a href={% url "postdetails" pk=post.pk %} class="text-decoration-none">{{ post.title }}</a></b>
                     {% if user.username|stringformat:"s" == post.author|stringformat:"s" %}
                     <a href="{% url 'editpost' pk=post.pk %}">
@@ -21,18 +19,18 @@
                         <path fill-rule="evenodd" d="M11.013 1.427a1.75 1.75 0 012.474 0l1.086 1.086a1.75 1.75 0 010 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 01-.927-.928l.929-3.25a1.75 1.75 0 01.445-.758l8.61-8.61zm1.414 1.06a.25.25 0 00-.354 0L10.811 3.75l1.439 1.44 1.263-1.263a.25.25 0 000-.354l-1.086-1.086zM11.189 6.25L9.75 4.81l-6.286 6.287a.25.25 0 00-.064.108l-.558 1.953 1.953-.558a.249.249 0 00.108-.064l6.286-6.286z">
                         </path>
                         </svg>    
-                    </a>
+                    </a>  
                     {% else %}
                     <b></b>
                     {% endif %}
                     &nbsp;
                     <div class="overflow-hidden">
                         <span class="d-inline-block text-truncate" style="max-width: 1500px;">
-                            {{ post.text }}
+                            <p>{{ post.text }}</p>
                         </span>
                     </div>
                     <hr>
-                    <i>{{ post.post_datetime }}</i>    
+                    <p class="text-right">{{ post.author }} &nbsp;|&nbsp; <i>{{ post.post_datetime }}</i></p>    
             </div>  
         {% endfor %}  
         </div>      

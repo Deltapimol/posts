@@ -2,12 +2,12 @@
     {% extends 'index.html' %}
     {% block content %}
     <head>
-        <div class="shadow-sm p-3 mb-5 bg-white rounded">
+        <div class="shadow-sm p-3 mb-5 bg-white rounded d-flex justify-content-center">
             <h4>Edit Post</h4>        
         </div>
     </head>
     <body>
-        <div class="container-fluid">
+        <div class="container d-flex justify-content-center">
             <div class="form-group">
                 <form method='POST'>
                     {% csrf_token %}
@@ -22,6 +22,7 @@
                             <span class="input-group-text" id="basic-addon1">Text : &nbsp&nbsp {{ form.text }}</span>
                         </div>
                     </div>
+                    <div class="float-right">
                         <a href="{% url 'postdetails' pk=pk %}">
                             <button type='button' class="btn btn-dark">
                             Cancel
@@ -31,7 +32,7 @@
                     {% else %}
                         <p>User not logged in. Please login to create a new post.</p>
                     {% endif %}
-                                
+                    </div>          
                 </form>
                 </div>
         </div>

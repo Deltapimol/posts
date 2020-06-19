@@ -12,7 +12,9 @@
         {% else %}
         <br>
         <hr>
-            <p class="text-center"><a href="{% url 'login' %}">Login</a> to comment</p>
+            <a href="{% url 'login' %}">
+                <button type="button" class="btn btn-primary btn-lg btn-block">Login to reply</button>
+            </a>
         {% endif %}
         </div>
     </body>
