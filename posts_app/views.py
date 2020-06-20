@@ -78,5 +78,15 @@ def createReply(request, pk, pk2):
         form = ReplyForm()
     return render(request, 'Posts/reply.html',{ 'form': form, 'pk': pk ,'pk2':pk2})
 
+def deletePost(request, pk):
+    post = Post.objects.get(pk=pk)
+    post.delete()
+    return redirect('displayposts')
+
+def deleteReply(request,pk,pk2,pk3):
+    reply = Reply.objects.get(pk=pk3)
+    reply.delete()
+    return redirect('postdetails', pk)
+
 
     

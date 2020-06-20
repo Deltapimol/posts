@@ -5,21 +5,29 @@
         <div class="container">
             <div class="shadow-sm p-3 mb-3 bg-white rounded">
                 <h3>
-                    {{ post.title }} 
                     {% if user.username|stringformat:"s" == post.author|stringformat:"s" %}
-                    &nbsp;&nbsp;
-                    <a href="{% url 'editpost' pk=post.pk %}">
-                        <button type='button' class="btn btn-info">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
-                        <path  d="M11.013 1.427a1.75 1.75 0 012.474 0l1.086 1.086a1.75 1.75 0 010 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 01-.927-.928l.929-3.25a1.75 1.75 0 01.445-.758l8.61-8.61zm1.414 1.06a.25.25 0 00-.354 0L10.811 3.75l1.439 1.44 1.263-1.263a.25.25 0 000-.354l-1.086-1.086zM11.189 6.25L9.75 4.81l-6.286 6.287a.25.25 0 00-.064.108l-.558 1.953 1.953-.558a.249.249 0 00.108-.064l6.286-6.286z">
-                        </path>
-                        </svg>
-                        Edit
-                        </button>
-                    </a>
+                    <div class="text-right">
+                        <a href="{% url 'deletepost' pk=post.pk %}">
+                            <button type='button' class="btn btn-dark btn-sm">
+                            <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg>                       
+                            </button>
+                            </a>
+                        <a href="{% url 'editpost' pk=post.pk %}">
+                            <button type='button' class="btn btn-warning btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+                            <path  d="M11.013 1.427a1.75 1.75 0 012.474 0l1.086 1.086a1.75 1.75 0 010 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 01-.927-.928l.929-3.25a1.75 1.75 0 01.445-.758l8.61-8.61zm1.414 1.06a.25.25 0 00-.354 0L10.811 3.75l1.439 1.44 1.263-1.263a.25.25 0 000-.354l-1.086-1.086zM11.189 6.25L9.75 4.81l-6.286 6.287a.25.25 0 00-.064.108l-.558 1.953 1.953-.558a.249.249 0 00.108-.064l6.286-6.286z">
+                            </path>
+                            </svg>
+                            </button>
+                        </a>
+                    </div>
                     {% else %}
-                    <b></b>
-                    {% endif %}    
+                    <br>
+                    {% endif %}
+                    {{ post.title }}                         
                 </h3>               
                 <h6><p class="text-secondary">{{ post.author }}</p></h6>
                 <small class="text-muted">
@@ -73,11 +81,25 @@
                                 <div class="shadow-sm p-1 mb-1 bg-white rounded">
                                     <div class="card">
                                         <div class="card-body">
-                                        {{ reply.reply|linebreaksbr }}
-                                        </div>  
+                                            <span class="badge badge-pill badge-light">@{{ comment.commentator }}</span>
+                                        <p>{{ reply.reply|linebreaksbr }}</p>
+                                        </div> 
+                                        {% if user.username|stringformat:"s" == reply.respondent|stringformat:"s" %}
+                                        <small class="text-right">  
+                                       {{ reply.respondent }}&nbsp;|&nbsp;
+                                            <i>{{ reply.reply_datetime }}</i> &nbsp;
+                                            <a href="{% url 'deletereply' pk=post.pk pk2=comment.pk pk3=reply.pk %}">
+                                                    <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                                    </svg>  
+                                            </a> &nbsp;
+                                        </small> 
+                                        {% else %}
                                         <small class="text-right">{{ reply.respondent }}&nbsp;|&nbsp;
-                                            <i>{{ reply.reply_datetime }}</i>
+                                            <i>{{ reply.reply_datetime }}</i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         </small>
+                                        {% endif %}    
                                     </div>
                                 </div>  
                                 {% endif %}
