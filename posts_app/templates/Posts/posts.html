@@ -23,7 +23,6 @@
                     {% else %}
                     <b></b>
                     {% endif %}
-                    &nbsp;
                     <div class="overflow-hidden">
                         <span class="d-inline-block text-truncate" style="max-width: 1500px;">
                             <p>{{ post.text }}</p>
@@ -31,7 +30,8 @@
                     </div>
                     <hr>
                     <p class="text-right">{{ post.author }} &nbsp;|&nbsp; <i>{{ post.post_datetime }}</i></p>    
-            </div>  
+            </div>
+            <hr> 
         {% endfor %}  
         </div>      
     </body>

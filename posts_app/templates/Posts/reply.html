@@ -2,19 +2,30 @@
     {% extends 'index.html' %}
     {% block content %}
     <body>
-        <div class="container-fluid">
+        <br>
+        <div class="container">
         {% if user.is_authenticated %}
         <form method="POST">
             {% csrf_token %}
-             {{ form }}
-             <input type="submit" value="Post">
+            {{ form }}
+           <br>
+            <div class="text-right">
+                <a href="{% url 'postdetails' pk=pk %}">
+                    <button type="button" class="btn btn-secondary btn-sm"> Cancel </button>
+                </a>
+                <input type="submit" class="btn btn-primary btn-sm" value="Post">
+            </div>
         </form>
         {% else %}
         <br>
         <hr>
-            <a href="{% url 'login' %}">
-                <button type="button" class="btn btn-primary btn-lg btn-block">Login to reply</button>
-            </a>
+        <div class="container">
+            <div class="text-center">
+                <a href="{% url 'login' %}">
+                    Login to reply
+                </a>
+            </div>
+        </div>
         {% endif %}
         </div>
     </body>

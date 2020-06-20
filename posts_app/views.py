@@ -78,22 +78,5 @@ def createReply(request, pk, pk2):
         form = ReplyForm()
     return render(request, 'Posts/reply.html',{ 'form': form, 'pk': pk ,'pk2':pk2})
 
-# def commentCreate(request, pk):
-#     if request.method == "POST":
-#         form = CommentForm(request.POST)
-#         if form.is_valid():
-#             comment = form.save(commit=False)
-#             comment.commentator = request.user
-#             comment.comment_datetime = timezone.now()
-#             comment.post = get_object_or_404(Post,pk=pk)
-#             comment.save()
-#             return render(request,'postdetails')
-#     else:
-#         form = CommentForm()
-#     context = { "form": form , "pk": pk}
-#     return render(request,'Posts/comment.html',context)
 
-#def displayComments(pk):
-#    comments = Comment.objects.filter(post_id=pk)
-#    return comments
     

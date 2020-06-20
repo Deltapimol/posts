@@ -3,7 +3,7 @@
     {% block content %}
     <body> 
         <div class="container">
-            <div class="shadow-sm p-3 mb-5 bg-white rounded">
+            <div class="shadow-sm p-3 mb-3 bg-white rounded">
                 <h3>
                     {{ post.title }} 
                     {% if user.username|stringformat:"s" == post.author|stringformat:"s" %}
@@ -48,38 +48,43 @@
             {% endif %}
             <br>
             <b>Comments :</b>
-            <div class="shadow-sm p-3 mb-3 bg-white rounded">
                 {% for comment in comments %}
-                    <div class="card">
+                <div class="shadow-sm p-1 mb-1 m-0 bg-white rounded">
+                    <div class="card p-1 mb-1 m-0">
                         <div class="card-body">                           
-                            <p>{{ comment.comment }}</p>     
+                            <div class="alert alert-warning" role="alert">
+                                <p>{{ comment.comment|linebreaksbr }}</p>
+                            </div>
                             <footer class="blockquote-footer">
                                 <cite>
                                     {{ comment.commentator }}
                                 </cite>
-                            </footer>                     
-                        </div>
-                    </div>
-                    <p class="text-right mb-3">
-                        <a href="{% url 'reply' pk=post.pk pk2=comment.pk %}">
-                            <br>
-                            <button type="button" class="btn btn-dark btn-sm">Reply&nbsp;&nbsp;</button></a>
-                        <i>{{ comment.comment_datetime }}</i>
-                    </p>        
-                    <div class="shadow-sm p-3 mb-3 bg-white rounded">   
-                    {% for reply in replies %}    
-                            {% if reply.comment_id == comment.id %}    
-                            <div class="card">
-                                <div class="card-body">
-                                {{ reply.reply|linebreaksbr }}
+                            </footer>
+                            <div class="text-right m-0 mb-0 p-0" >                 
+                                <a href="{% url 'reply' pk=post.pk pk2=comment.pk %}">
+                                    <button type="button" class="btn btn-secondary btn-sm">&nbsp; Reply &nbsp;</button>
+                                </a>&nbsp;&nbsp;
+                                    <i>{{ comment.comment_datetime }}</i>
+                            </div> 
+                        </div> 
+                    </div>                
+                        {% for reply in replies %}    
+                                {% if reply.comment_id == comment.id %}    
+                                <div class="shadow-sm p-1 mb-1 bg-white rounded">
+                                    <div class="card">
+                                        <div class="card-body">
+                                        {{ reply.reply|linebreaksbr }}
+                                        </div>  
+                                        <small class="text-right">{{ reply.respondent }}&nbsp;|&nbsp;
+                                            <i>{{ reply.reply_datetime }}</i>
+                                        </small>
+                                    </div>
                                 </div>  
-                                <i class="text-right">{{ reply.reply_datetime }}</i>
-                            </div>    
-                            {% endif %}
+                                {% endif %}
                         {% endfor %}   
-                    </div>       
-                    {% endfor %}  
                 </div> 
+                <br>  
+                    {% endfor %}       
             </div>        
         </div>
     </body>

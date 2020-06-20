@@ -42,7 +42,7 @@ class ReplyForm(forms.ModelForm):
     reply = forms.CharField(
                             widget = forms.Textarea(
                                 attrs = {
-                                    'class':'form-control','rows':2,'placeholder':'reply'
+                                    'class':'form-control','rows':3,'placeholder':'Reply',
                                 }
                             )
     )
