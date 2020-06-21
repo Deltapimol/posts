@@ -6,7 +6,7 @@ class CreateUserForm(UserCreationForm):
     
     first_name = forms.CharField(
                                 widget = forms.TextInput(
-                                    attrs = {'class':'form-control','placeholder':'First Name'}
+                                    attrs = {'class':'form-control','placeholder':'First Name','autofocus':True}
                                 )
                                 )
     last_name = forms.CharField(
@@ -21,7 +21,7 @@ class CreateUserForm(UserCreationForm):
                             )
     username = forms.CharField(
                                 widget = forms.TextInput(
-                                 attrs = {'class':'form-control','placeholder':'Username'}   
+                                 attrs = {'class':'form-control','placeholder':'Username',}   
                                 )
                             )
     password1 = forms.CharField(

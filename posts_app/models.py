@@ -36,12 +36,12 @@ class Reply(models.Model):
 class ReplyToReply(models.Model):
     
     reply = models.ForeignKey(Reply, on_delete = models.CASCADE)
-    this_respondent = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
-    this_reply = models.CharField(blank=False,null=False,max_length = 500)
+    reply_respondent = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
+    reply_reply = models.CharField(blank=False,null=False,max_length = 500)
     reply_datetime = models.DateTimeField(null=True)
     
     def __str__(self):
-        return self.this_reply   
+        return self.reply_reply   
     
     
 

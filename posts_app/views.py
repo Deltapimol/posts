@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.utils import timezone
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from .models import Post, Comment, Reply
-from .forms import PostForm, CommentForm, ReplyForm
+from .forms import PostForm, CommentForm, ReplyForm, ReplyToReplyForm
 
 class about(TemplateView):
     template_name = "about.html"    
@@ -28,11 +28,20 @@ def createPost(request):
     return render(request,'Posts/newpost.html',context)
 
 def displayPosts(request):
-    posts = Post.objects.all()
-    paginator = Paginator(posts,10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request,'Posts/posts.html',{ 'posts': posts,'page_obj': page_obj })
+    posts_list = Post.objects.all()  
+    paginator = Paginator(posts_list,5)
+    
+    try:
+        page = int(request.GET.get('page',1))
+    except:
+        page = 1
+    
+    try:
+        posts = paginator.page(page)
+    except(EmptyPage, InvalidPage):
+        posts = paginator.page(paginator.num_pages)
+        
+    return render(request,'Posts/posts.html',{ 'posts': posts, })
 
 def postDetail(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -82,6 +91,20 @@ def createReply(request, pk, pk2):
     else:
         form = ReplyForm()
     return render(request, 'Posts/reply.html',{ 'form': form, 'pk': pk ,'pk2':pk2})
+
+def replyToReply(request,pk,pk2,pk3):
+    if request.method == 'POST':
+        form = ReplyToReplyForm(request.POST)
+        if form.is_valid:
+            reply2 = form.save(commit=False)
+            reply = Reply.objects.get(pk=pk3)
+            reply_respondent = request.user
+            reply_datetime = timezone.now()
+            reply2.save()
+            return redirect('postdetails',pk)
+    else:
+        form = ReplyToReplyForm(request.POST)
+    return render(request, 'Posts/reply.html',{'form': form, 'pk': pk,'pk2': pk2,'pk3': pk})
 
 def deletePost(request, pk):
     post = Post.objects.get(pk=pk)
