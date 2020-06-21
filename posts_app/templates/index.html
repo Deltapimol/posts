@@ -2,21 +2,13 @@
 <html>
 
     <head>
-                <link rel="stylesheet" href= 
-        "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> 
-            <script src= 
-        "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"> 
-            </script> 
-            <script src= 
-        "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"> 
-            </script> 
-            <script src= 
-        "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"> 
-            </script> 
-        <link rel="stylesheet" href="{% static 'css/posts.css' %}">
-        <link rel="shortcut icon" href="{% static 'favicon.png' %}" type="image/png">
- 
-        <title>Beddit</title>
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> 
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> 
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> 
+          <link rel="stylesheet" href="{% static 'css/posts.css' %}">
+          <link rel="shortcut icon" href="{% static 'favicon.png' %}" type="image/png">
+      <title>Beddit</title>
         <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href='{% url "displayposts" %}'>
                 <img src="{% static 'logo.jpg' %}" alt="Beddit">
@@ -34,18 +26,18 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'contact' %}">Contact</a>
-                  </li>
-                </ul>
+                </li>
+              </ul>
                 {% if user.is_authenticated %}
-                <ul class="navbar-nav ml-auto">
+              <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                   
                         <span class="badge badge-light">
-                            <svg class="bi bi-person-circle" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <svg class="bi bi-person-circle" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
                             <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                             <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-                            </svg>
+                          </svg>
                         &nbsp;{{ user.username }}
                         </span>
                   </a>
@@ -55,23 +47,25 @@
                     </a>
                   </div>
                 </li>
-                </ul>
+              </ul>
             </div>
                 {% else %}
-                
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href='{% url "login" %}'>Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href='{% url "userRegister" %}'>Sign Up</a>
-                        </li>
-                    </ul>
-                   
+                  <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href='{% url "login" %}'>Login</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href='{% url "userRegister" %}'>Sign Up</a>
+                    </li>
+                  </ul>  
                 {% endif %} 
-          
           </nav>     
     </head>
             {% block content %}
             {% endblock %}
+    <footer class="footer mt-auto py-3">
+      <div class="container-fluid">
+        <span class="text-muted">Place sticky footer content here.</span>
+      </div>
+    </footer>
 </html>

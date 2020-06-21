@@ -5,7 +5,7 @@ from django.utils import timezone
 class Post(models.Model):
 
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
-    title = models.CharField(blank=False, null=False, max_length=200)
+    title = models.CharField(blank=False, null=False, max_length=500)
     text = models.TextField()
     post_datetime = models.DateTimeField(null=True)
 
@@ -27,7 +27,7 @@ class Reply(models.Model):
     post = models.ForeignKey(Post, on_delete = models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete = models.CASCADE)
     respondent = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
-    reply = models.CharField(blank=False,null=False,max_length=300)
+    reply = models.CharField(blank=False,null=False,max_length=500)
     reply_datetime = models.DateTimeField(null=True)
     
     def __str__(self):
@@ -37,7 +37,7 @@ class ReplyToReply(models.Model):
     
     reply = models.ForeignKey(Reply, on_delete = models.CASCADE)
     this_respondent = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
-    this_reply = models.CharField(blank=False,null=False,max_length = 300)
+    this_reply = models.CharField(blank=False,null=False,max_length = 500)
     reply_datetime = models.DateTimeField(null=True)
     
     def __str__(self):

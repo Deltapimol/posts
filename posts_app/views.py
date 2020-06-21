@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.utils import timezone
+from django.core.paginator import Paginator
 from .models import Post, Comment, Reply
 from .forms import PostForm, CommentForm, ReplyForm
 
@@ -28,11 +29,15 @@ def createPost(request):
 
 def displayPosts(request):
     posts = Post.objects.all()
-    return render(request,'Posts/posts.html',{ 'posts': posts })
+    paginator = Paginator(posts,10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request,'Posts/posts.html',{ 'posts': posts,'page_obj': page_obj })
 
 def postDetail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     comments = Comment.objects.filter(post_id=pk)
+    #total_comments = len(comments)
     replies = Reply.objects.filter(post_id=pk)
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -82,6 +87,11 @@ def deletePost(request, pk):
     post = Post.objects.get(pk=pk)
     post.delete()
     return redirect('displayposts')
+
+def deleteComment(request,pk,pk2):
+    comment = Comment.objects.get(pk=pk2)
+    comment.delete()
+    return redirect('postdetails', pk)
 
 def deleteReply(request,pk,pk2,pk3):
     reply = Reply.objects.get(pk=pk3)
