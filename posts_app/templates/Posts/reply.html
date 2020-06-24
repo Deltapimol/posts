@@ -4,7 +4,6 @@
     <body>
         <br>
         <div class="container">
-        {% if user.is_authenticated %}
         <form method="POST">
             {% csrf_token %}
             {{ form }}
@@ -16,17 +15,6 @@
                 <input type="submit" class="btn btn-primary btn-sm" value="Post">
             </div>
         </form>
-        {% else %}
-        <br>
-        <hr>
-        <div class="container">
-            <div class="text-center">
-                <a href="{% url 'login' %}">
-                    Login to reply
-                </a>
-            </div>
-        </div>
-        {% endif %}
         </div>
     </body>
     {% endblock %}

@@ -55,7 +55,7 @@ class ReplyForm(forms.ModelForm):
     
     class Meta:
         model = Reply
-        fields = ('reply',)
+        fields = ('reply','respondent')
 
 class ReplyToReplyForm(forms.ModelForm):
     

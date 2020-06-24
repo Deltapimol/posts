@@ -97,7 +97,7 @@ def createReply(request, pk, pk2):                  # View for creating a reply
             reply = form.save(commit=False)
             reply.post = get_object_or_404(Post, pk=pk) # Fetch the post object on which the comment lies
             reply.comment = get_object_or_404(Comment , pk=pk2) # Fetch comment object to which the reply is made to using the primary key of the comment
-            reply.respondent = request.user
+            #reply.respondent = request.user
             reply.reply_datetime = timezone.now()
             reply.save()
             return redirect('postdetails',pk)
