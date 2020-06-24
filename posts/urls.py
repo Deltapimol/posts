@@ -27,6 +27,5 @@ urlpatterns = [
     path('posts/',include('posts_app.urls')),
     path('login/',include('login_app.urls')),
     path('about/',about.as_view(),name='about'),
-    path('contact/',contact.as_view(),name='contact'),
     
 ]

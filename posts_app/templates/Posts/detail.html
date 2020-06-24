@@ -38,22 +38,18 @@
                     <p>{{ post.text|linebreaksbr}}</p>
                 </div>   
                 <hr>
-            {% if user.is_authenticated %}
                 <form method="POST">
                     {% csrf_token %}
                     {{ form.comment }}
+                    <br>
+                    <div class="col-sm-5">
+                        {{ form.commentator }}                    
+                    </div>
                     <br>
                     <div class="float-right">
                         <button type='submit' class="btn btn-primary">Post</button>
                     </div>
                 </form>
-            {% else %}
-                <br>
-                <hr>
-                <p class="text-center">
-                    <a href="{% url 'login' %}">Login</a> to comment
-                </p>
-            {% endif %}
             <br>
             <b>Comments :</b>
                 {% for comment in comments %}
@@ -78,7 +74,7 @@
                                 {% endif %}
                                 <small>
                                     <i>{{ comment.comment_datetime }}</i>
-                                    {% if comment.commentator|stringformat:"s" == user.username|stringformat:"s" %}
+                                    {% if post.author|stringformat:"s" == user.username|stringformat:"s" %}
                                     <a href="{% url 'deletecomment' pk=post.pk pk2=comment.pk %}" onclick="return confirm('Are you sure?')">
                                         <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>

@@ -6,12 +6,59 @@
             <h4>Contact Us</h4>
         </div>
     </head>
-    <body>
-        <div class="container">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <body> 
+        <div class="d-flex justify-content-center">           
+            <div class="card mb-3 p-3 m-3">
+                {% if messages %}
+                {% for message in messages %}
+                   <span class="alert alert-success">{{ message }}</span> 
+                {% endfor %}
+            {% endif %}
+            <form method="POST">
+                <div class="container">
+                        {% csrf_token %}
+                    <div class="row mb-2 p-1">
+                        <div class="cols-5 p-2">
+                            {{ form.first_name }}
+                        </div>
+                        <div class="cols-5 p-2">
+                            {{ form.last_name }}
+                        </div>
+                    </div>
+                    <div class="row mb-2 p-1">
+                        <div class="w-25 m-2">
+                            {{ form.email }}
+                        </div>
+                        <div class="w-25 p-2">
+                            {{ form.contact_no }}
+                        </div>
+                    </div>
+                    <div class="row mb-2 p-1">
+                        <div class="w-50 p-2">
+                            {{ form.location }}
+                        </div>
+                    </div>
+                    <br>
+                    <h6>Reason for contact :</h6>
+                        {% for radio in form.reason_for_contact %}
+                        <div class="form-check">
+                            {{ radio }} 
+                        </div>
+                        {% endfor %}
+                    <br>
+                    <div class="float-left">
+                        <input  type="submit" class="btn btn-success" value="Submit">
+                    </div>  
+                </div>  
+            </form> 
+            <p class="text-danger">Note: All fields are mandatory</p> 
+            <hr>
+                <div class="alert alert-info p-2">
+                    <p><b>We will not use the information you provide to send unsolicited communications and will not sell your information to any third party.</b></p>                   
+                    <p>Email : <b>demo@gmail.com</b></p>
+                    <p>Contact : <b>111-111-111</b></p>
+                </div>
+            </div>
         </div>
     </body>
     {% endblock %}
