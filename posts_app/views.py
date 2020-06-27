@@ -76,28 +76,29 @@ def postDetailAndComment(request, pk):              # view for generating templa
     context = { 'post': post, 'comments': comments , "form": form , "pk": pk ,"replies":replies}
     return render(request,'Posts/detail.html',context)
 
-def postEdit(request, pk):                          # View for post editing 
-    post = get_object_or_404(Post, pk=pk)           # Fetch the post using the post id
+def postEdit(request, pk):                          # View for post editing.
+    post = get_object_or_404(Post, pk=pk)           # Fetch the post using the post id.
     if request.method == 'POST':
-        form = PostForm(request.POST,instance=post) # Passing the instance of post that needs editing
+        form = PostForm(request.POST,instance=post) # Passing the instance of post that needs editing.
         if form.is_valid:
             post = form.save(commit=False)
             post.author = request.user
             post.post_datetime = timezone.now()
             post.save()
-            return redirect('postdetails',pk)       # Redirect to the page again with edited post 
+            return redirect('postdetails',pk)       # Redirect to the page again with the edited post.
     else:
-        form = PostForm(instance=post)              # In case of GET request, fetch the post instance for editing
+        form = PostForm(instance=post)              # In case of GET request, fetch the post instance for editing.
     return render(request,'Posts/edit.html',{ 'form': form , 'pk': pk })
 
 def createReply(request, **kwargs):
     
-    ReplyFlag = bool()
-    pk = kwargs['pk']
+    ReplyFlag = bool()                              # Boolean variable to decide what form field to display on template.
+    pk = kwargs['pk']                               # Fetching primary keys from the url.
     pk2 = kwargs['pk2']
-    if "pk3" in kwargs:
-        pk3 = kwargs['pk3']
-        if request.method == 'POST':
+    
+    if "pk3" in kwargs:                             # Check if there is a primary key for a reply. This will have value only when user replies to a reply via its url.
+        pk3 = kwargs['pk3']         
+        if request.method == 'POST':                # If there is a reply primary key, render a ReplyToReply form depending on the type of request.
             Form = ReplyToReplyForm(request.POST)
             if Form.is_valid:
                 reply = Form.save(commit=False)
@@ -107,10 +108,10 @@ def createReply(request, **kwargs):
                 return redirect('postdetails',pk)
         else:
             Form = ReplyToReplyForm()
-        context = { 'form': Form, 'pk':pk, 'pk2':pk2, 'pk3':pk3, 'ReplyFlag':True }
+        context = { 'form': Form, 'pk':pk, 'pk2':pk2, 'pk3':pk3, 'ReplyFlag':True } # Context dictionary when ReplyToReply Form is requested. ReplyFlag set to True.
         
     else:
-        if request.method == 'POST':
+        if request.method == 'POST':                # In case of a reply to a comment. There is no 3rd primary key passed via the url. Thus here it renders a Reply Form depending on the type of request.
             Form = ReplyForm(request.POST)
             if Form.is_valid():
                 reply = Form.save(commit=False)
@@ -121,21 +122,21 @@ def createReply(request, **kwargs):
                 return redirect('postdetails',pk) 
         else:
             Form = ReplyForm()
-        context = { 'form':Form, 'pk':pk, 'pk2':pk2, 'ReplyFlag':False }
+        context = { 'form':Form, 'pk':pk, 'pk2':pk2, 'ReplyFlag':False }    # Context dictionary when Reply Form is requested. ReplyFlag set to False
     return render(request,'Posts/reply.html', context)
 
 def deletePost(request, pk):    
-    post = Post.objects.get(pk=pk)          # Fetch the post which needs to be deleted 
+    post = Post.objects.get(pk=pk)                  # Fetch the post which needs to be deleted 
     post.delete()
     return redirect('displayposts')
 
 def deleteComment(request,pk,pk2):
-    comment = Comment.objects.get(pk=pk2)   # Fetch the comment which needs to be deleted 
+    comment = Comment.objects.get(pk=pk2)           # Fetch the comment which needs to be deleted 
     comment.delete()
     return redirect('postdetails', pk)
 
 def deleteReply(request,pk,pk2,pk3):
-    reply = Reply.objects.get(pk=pk3)       # Fetch the reply which needs to be deleted
+    reply = Reply.objects.get(pk=pk3)               # Fetch the reply which needs to be deleted
     reply.delete()
     return redirect('postdetails', pk)
 
