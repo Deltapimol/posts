@@ -90,34 +90,39 @@ def postEdit(request, pk):                          # View for post editing
         form = PostForm(instance=post)              # In case of GET request, fetch the post instance for editing
     return render(request,'Posts/edit.html',{ 'form': form , 'pk': pk })
 
-def createReply(request, pk, pk2):                  # View for creating a reply 
-    if request.method == 'POST':                    # If the request is POST, save the form data and redirect to postdetails with the pk of replied post
-        form = ReplyForm(request.POST)
-        if form.is_valid:
-            reply = form.save(commit=False)
-            reply.post = get_object_or_404(Post, pk=pk) # Fetch the post object on which the comment lies
-            reply.comment = get_object_or_404(Comment , pk=pk2) # Fetch comment object to which the reply is made to using the primary key of the comment
-            #reply.respondent = request.user
-            reply.reply_datetime = timezone.now()
-            reply.save()
-            return redirect('postdetails',pk)
+def createReply(request, **kwargs):
+    
+    ReplyFlag = bool()
+    pk = kwargs['pk']
+    pk2 = kwargs['pk2']
+    if "pk3" in kwargs:
+        pk3 = kwargs['pk3']
+        if request.method == 'POST':
+            Form = ReplyToReplyForm(request.POST)
+            if Form.is_valid:
+                reply = Form.save(commit=False)
+                reply.reply = get_object_or_404(Reply, pk=pk3)
+                reply.reply_datetime = timezone.now()
+                reply.save()
+                return redirect('postdetails',pk)
+        else:
+            Form = ReplyToReplyForm()
+        context = { 'form': Form, 'pk':pk, 'pk2':pk2, 'pk3':pk3, 'ReplyFlag':True }
+        
     else:
-        form = ReplyForm()                          # Create a blank form if the request is GET
-    return render(request, 'Posts/reply.html',{ 'form': form, 'pk': pk ,'pk2':pk2})
-
-def replyToReply(request,pk,pk2,pk3):
-    if request.method == 'POST':
-        form = ReplyToReplyForm(request.POST)
-        if form.is_valid:
-            reply2 = form.save(commit=False)
-            reply = Reply.objects.get(pk=pk3)
-            reply_respondent = request.user
-            reply_datetime = timezone.now()
-            reply2.save()
-            return redirect('postdetails',pk)
-    else:
-        form = ReplyToReplyForm(request.POST)
-    return render(request, 'Posts/reply.html',{'form': form, 'pk': pk,'pk2': pk2,'pk3': pk})
+        if request.method == 'POST':
+            Form = ReplyForm(request.POST)
+            if Form.is_valid():
+                reply = Form.save(commit=False)
+                reply.post = get_object_or_404(Post, pk=pk)
+                reply.comment = get_object_or_404(Comment, pk=pk2)
+                reply.reply_datetime = timezone.now()
+                reply.save()
+                return redirect('postdetails',pk) 
+        else:
+            Form = ReplyForm()
+        context = { 'form':Form, 'pk':pk, 'pk2':pk2, 'ReplyFlag':False }
+    return render(request,'Posts/reply.html', context)
 
 def deletePost(request, pk):    
     post = Post.objects.get(pk=pk)          # Fetch the post which needs to be deleted 

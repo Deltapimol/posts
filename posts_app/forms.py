@@ -53,13 +53,21 @@ class ReplyForm(forms.ModelForm):
                             )
     )
     
+    respondent = forms.CharField(
+                                widget = forms.TextInput(
+                                    attrs = {
+                                        'class':'form-control','placeholder':'Name','size': 5
+                                    }
+                                )
+    )
+    
     class Meta:
         model = Reply
         fields = ('reply','respondent')
 
 class ReplyToReplyForm(forms.ModelForm):
     
-    reply = forms.CharField(
+    reply_reply = forms.CharField(
                             widget = forms.Textarea(
                                 attrs = {
                                     'class':'form-control','rows':3,'placeholder':'Reply',
@@ -69,7 +77,7 @@ class ReplyToReplyForm(forms.ModelForm):
     
     class Meta:
         model = ReplyToReply
-        fields = ('reply',) #Class based view?
+        fields = ('reply_reply','reply_respondent') #Class based view?
 
 class ContactForm(forms.ModelForm):
     

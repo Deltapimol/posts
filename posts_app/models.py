@@ -15,7 +15,6 @@ class Post(models.Model):
 class Comment(models.Model):
     
     post = models.ForeignKey(Post,on_delete = models.CASCADE)
-    #commentator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
     commentator = models.CharField(blank=False,null=False,max_length = 50)
     comment = models.CharField(blank=False,null=False,max_length=500)
     comment_datetime = models.DateTimeField(null=True)
@@ -27,8 +26,7 @@ class Reply(models.Model):
     
     post = models.ForeignKey(Post, on_delete = models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete = models.CASCADE)
-    #respondent = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
-    respondent = models.CharField(blank=False,null=False,max_length= 50)
+    respondent = models.CharField(blank=False,null=False,max_length= 15)
     reply = models.CharField(blank=False,null=False,max_length=500)
     reply_datetime = models.DateTimeField(null=True)
     
@@ -38,7 +36,7 @@ class Reply(models.Model):
 class ReplyToReply(models.Model):
     
     reply = models.ForeignKey(Reply, on_delete = models.CASCADE)
-    reply_respondent = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
+    reply_respondent = models.CharField(blank=False,null=False,max_length=15)
     reply_reply = models.CharField(blank=False,null=False,max_length = 500)
     reply_datetime = models.DateTimeField(null=True)
     

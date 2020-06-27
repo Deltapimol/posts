@@ -6,7 +6,34 @@
         <div class="container">
         <form method="POST">
             {% csrf_token %}
-            {{ form }}
+            {% if ReplyFlag == True %}
+                {{ form.reply_reply }}
+                {% if user.is_authenticated %}
+                <br>
+                <div class="col-sm-5">  
+                    <input class="form-control" type="text" name="reply_respondent" maxlength="15" size="5" id="id_respondent" value="{{ form.respondent.value|default:user.username }}"  required readonly>         
+                </div>   
+                {% else %}
+                <br>
+                <div class="col-sm-5">    
+                    {{ form.reply_respondent }}
+                </div>
+            {% endif %}
+            {% else %}
+                {{ form.reply }}
+                {% if user.is_authenticated %}
+                <br>
+                <div class="col-sm-5">  
+                    <input class="form-control" type="text" name="respondent" maxlength="15" size="5" id="id_respondent" value="{{ form.respondent.value|default:user.username }}"  required readonly>         
+                </div>   
+                {% else %}
+                <br>
+                <div class="col-sm-5">    
+                    {{ form.respondent }}
+                </div>
+                {% endif %}
+            {% endif %}
+            
            <br>
             <div class="text-right">
                 <a href="{% url 'postdetails' pk=pk %}" class="text-decoration-none">
