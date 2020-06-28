@@ -26,25 +26,12 @@ class Reply(models.Model):
     
     post = models.ForeignKey(Post, on_delete = models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete = models.CASCADE)
-    #reply_ref = models.ForeignKey()
     respondent = models.CharField(blank=False,null=False,max_length= 15)
     reply = models.CharField(blank=False,null=False,max_length=500)
     reply_datetime = models.DateTimeField(null=True)
     
     def __str__(self):
         return self.reply
-
-class ReplyToReply(models.Model):
-    
-    #post = models.ForeignKey(Post, on_delete = models.CASCADE)
-    #comment = models.ForeignKey(Comment, on_delete = models.CASCADE)
-    reply = models.ForeignKey(Reply, on_delete = models.CASCADE)
-    reply_respondent = models.CharField(blank=False,null=False,max_length=15)
-    reply_reply = models.CharField(blank=False,null=False,max_length = 500)
-    reply_datetime = models.DateTimeField(null=True)
-    
-    def __str__(self):
-        return self.reply_reply  
 
 class Contact(models.Model):
     

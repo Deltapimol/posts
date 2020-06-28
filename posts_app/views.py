@@ -5,8 +5,8 @@ from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.contrib import messages
 from posts import urls
-from .models import Post, Comment, Reply , ReplyToReply, Contact
-from .forms import PostForm, CommentForm, ReplyForm, ReplyToReplyForm, ContactForm
+from .models import Post, Comment, Reply, Contact
+from .forms import PostForm, CommentForm, ReplyForm, ContactForm
 
 class about(TemplateView):
     template_name = "about.html"    
@@ -62,12 +62,6 @@ def postDetailAndComment(request, pk):              # view for generating templa
     comments = Comment.objects.filter(post_id=pk)  
     replies = Reply.objects.filter(post_id=pk)
     
-    reply_ids = []
-    for reply in replies:
-        reply_ids.append(reply.pk)
-    
-    RepliesToReplies = ReplyToReply.objects.filter(reply_id__in=reply_ids) #????
-    
     if request.method == "POST":
         form = CommentForm(request.POST)             # If the request is POST,save comment data and render template again.
         if form.is_valid():
@@ -76,10 +70,10 @@ def postDetailAndComment(request, pk):              # view for generating templa
             comment.post = get_object_or_404(Post,pk=pk)
             comment.save()
             form = CommentForm()                     # Clear the form after comment submission
-            return render(request,'Posts/detail.html',{'post':post, 'form':form, 'comments':comments, 'replies':replies, 'RepliesToReplies':RepliesToReplies })
+            return render(request,'Posts/detail.html',{'post':post, 'form':form, 'comments':comments, 'replies':replies, })
     else:
         form = CommentForm()    
-    context = { 'post': post, 'comments': comments, "form": form, "pk": pk, "replies":replies, 'RepliesToReplies':RepliesToReplies}
+    context = { 'post': post, 'comments': comments, "form": form, "pk": pk, "replies":replies, }
     return render(request,'Posts/detail.html',context)
 
 def postEdit(request, pk):                          # View for post editing.
@@ -97,40 +91,22 @@ def postEdit(request, pk):                          # View for post editing.
     return render(request,'Posts/edit.html',{ 'form': form , 'pk': pk })
 
 def createReply(request, **kwargs):
-    
-    ReplyFlag = bool()                              # Boolean variable to decide what form field to display on template.
+
     pk = kwargs['pk']                               # Fetching primary keys from the url.
     pk2 = kwargs['pk2']
     
-    if "pk3" in kwargs:                             # Check if there is a primary key for a reply. This will have value only when user replies to a reply via its url.
-        pk3 = kwargs['pk3']         
-        if request.method == 'POST':                # If there is a reply primary key, render a ReplyToReply form depending on the type of request.
-            Form = ReplyToReplyForm(request.POST)
-            if Form.is_valid:
-                reply = Form.save(commit=False)
-                #reply.post = get_object_or_404(Post, pk=pk)
-                #reply.comment = get_object_or_404(Comment , pk=pk2)
-                reply.reply = get_object_or_404(Reply, pk=pk3)
-                reply.reply_datetime = timezone.now()
-                reply.save()
-                return redirect('postdetails',pk)
-        else:
-            Form = ReplyToReplyForm()
-        context = { 'form': Form, 'pk':pk, 'pk2':pk2, 'pk3':pk3, 'ReplyFlag':True } # Context dictionary when ReplyToReply Form is requested. ReplyFlag set to True.
-        
+    if request.method == 'POST':        
+        Form = ReplyForm(request.POST)
+        if Form.is_valid():
+            reply = Form.save(commit=False)
+            reply.post = get_object_or_404(Post, pk=pk)
+            reply.comment = get_object_or_404(Comment, pk=pk2)
+            reply.reply_datetime = timezone.now()
+            reply.save()
+            return redirect('postdetails',pk) 
     else:
-        if request.method == 'POST':                # In case of a reply to a comment. There is no 3rd primary key passed via the url. Thus here it renders a Reply Form depending on the type of request.
-            Form = ReplyForm(request.POST)
-            if Form.is_valid():
-                reply = Form.save(commit=False)
-                reply.post = get_object_or_404(Post, pk=pk)
-                reply.comment = get_object_or_404(Comment, pk=pk2)
-                reply.reply_datetime = timezone.now()
-                reply.save()
-                return redirect('postdetails',pk) 
-        else:
-            Form = ReplyForm()
-        context = { 'form':Form, 'pk':pk, 'pk2':pk2, 'ReplyFlag':False }    # Context dictionary when Reply Form is requested. ReplyFlag set to False
+        Form = ReplyForm()
+    context = { 'form':Form, 'pk':pk, 'pk2':pk2, }    # Context dictionary when Reply Form is requested
     return render(request,'Posts/reply.html', context)
 
 def deletePost(request, pk):    

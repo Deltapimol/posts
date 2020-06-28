@@ -7,14 +7,14 @@
             {% if user.is_authenticated %}
             <div class="card p-0 mb-0">
                 <div class="card-body p-2 mb-2">
-            <div class="input-group-prepend">
-                <div class="input-group-text">
-                    @{{ user.username }}
-                </div> &nbsp;
-                <a href="{% url 'createpost' %}" class="text-decoration-none">
-                    <input class="form-control" type="text" style="width:500px;" placeholder="Create Post">
-                </a>
-            </div>
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            @{{ user.username }}
+                        </div> &nbsp;
+                        <a href="{% url 'createpost' %}" class="text-decoration-none">
+                            <input class="form-control" type="text" style="width:500px;" placeholder="Create Post">
+                        </a>
+                    </div>
                 </div>
             </div>
             {% else %}

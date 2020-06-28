@@ -1,7 +1,7 @@
 from django import forms
 from django.conf import settings
 from django.utils import timezone
-from .models import Post, Comment, Reply, ReplyToReply, Contact
+from .models import Post, Comment, Reply,  Contact
 
 class PostForm(forms.ModelForm):
     
@@ -64,26 +64,6 @@ class ReplyForm(forms.ModelForm):
     class Meta:
         model = Reply
         fields = ('reply','respondent')
-
-class ReplyToReplyForm(forms.ModelForm):
-    
-    reply_reply = forms.CharField(
-                            widget = forms.Textarea(
-                                attrs = {
-                                    'class':'form-control','rows':3,'placeholder':'Reply',
-                                }
-                            )
-    )
-    reply_respondent = forms.CharField(
-                            widget = forms.TextInput(
-                                attrs = {
-                                    'class':'form-control','placeholder':'Name',
-                                }
-                            )
-    )
-    class Meta:
-        model = ReplyToReply
-        fields = ('reply_reply','reply_respondent') #Class based view?
 
 class ContactForm(forms.ModelForm):
     
