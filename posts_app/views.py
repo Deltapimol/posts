@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.contrib import messages
 from posts import urls
-from .models import Post, Comment, Reply , Contact
+from .models import Post, Comment, Reply , ReplyToReply, Contact
 from .forms import PostForm, CommentForm, ReplyForm, ReplyToReplyForm, ContactForm
 
 class about(TemplateView):
@@ -61,19 +61,25 @@ def postDetailAndComment(request, pk):              # view for generating templa
     post = get_object_or_404(Post, pk=pk)           # get post, comments and replies using pk of post
     comments = Comment.objects.filter(post_id=pk)  
     replies = Reply.objects.filter(post_id=pk)
+    
+    reply_ids = []
+    for reply in replies:
+        reply_ids.append(reply.pk)
+    
+    RepliesToReplies = ReplyToReply.objects.filter(reply_id__in=reply_ids) #????
+    
     if request.method == "POST":
         form = CommentForm(request.POST)             # If the request is POST,save comment data and render template again.
         if form.is_valid():
             comment = form.save(commit=False)
-            #comment.commentator = request.user      # Commentator commented upon changing the model and form to allow anyone to comment and not just logged in user
             comment.comment_datetime = timezone.now()
             comment.post = get_object_or_404(Post,pk=pk)
             comment.save()
             form = CommentForm()                     # Clear the form after comment submission
-            return render(request,'Posts/detail.html',{'post':post, 'form':form ,'comments':comments, 'replies':replies})
+            return render(request,'Posts/detail.html',{'post':post, 'form':form, 'comments':comments, 'replies':replies, 'RepliesToReplies':RepliesToReplies })
     else:
         form = CommentForm()    
-    context = { 'post': post, 'comments': comments , "form": form , "pk": pk ,"replies":replies}
+    context = { 'post': post, 'comments': comments, "form": form, "pk": pk, "replies":replies, 'RepliesToReplies':RepliesToReplies}
     return render(request,'Posts/detail.html',context)
 
 def postEdit(request, pk):                          # View for post editing.
@@ -102,6 +108,8 @@ def createReply(request, **kwargs):
             Form = ReplyToReplyForm(request.POST)
             if Form.is_valid:
                 reply = Form.save(commit=False)
+                #reply.post = get_object_or_404(Post, pk=pk)
+                #reply.comment = get_object_or_404(Comment , pk=pk2)
                 reply.reply = get_object_or_404(Reply, pk=pk3)
                 reply.reply_datetime = timezone.now()
                 reply.save()

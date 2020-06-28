@@ -74,7 +74,13 @@ class ReplyToReplyForm(forms.ModelForm):
                                 }
                             )
     )
-    
+    reply_respondent = forms.CharField(
+                            widget = forms.TextInput(
+                                attrs = {
+                                    'class':'form-control','placeholder':'Name',
+                                }
+                            )
+    )
     class Meta:
         model = ReplyToReply
         fields = ('reply_reply','reply_respondent') #Class based view?
