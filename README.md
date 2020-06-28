@@ -1,2 +1,2 @@
-# Bloggin website
+# Blogging website
 
