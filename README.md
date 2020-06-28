@@ -1,2 +1,2 @@
-# Blogging website for patients of certain illness
+### Blogging website for patients of certain illness.
 
